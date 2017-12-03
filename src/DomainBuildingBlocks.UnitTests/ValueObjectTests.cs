@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using FluentAssertions;
 using Xunit;
 
@@ -20,7 +19,7 @@ namespace DomainBuildingBlocks.UnitTests
             stub.Should().Be(stub2);
         }
 
-        [Fact(Skip = "Failing test while featue in progress")]
+        [Fact]
         public void Should_properly_report_equality_with_hydrated_props()
         {
             ValueObject<T> stub = CreateValueObject();
@@ -69,10 +68,19 @@ namespace DomainBuildingBlocks.UnitTests
         }
 
         [Fact]
-        public void Should_report_get_hash_code_same_if_same_values()
+        public void Should_report_get_hash_code_same_if_same_values_with_list_of_list()
         {
             ValueObject<T> stub = CreateValueObject();
             ValueObject<T> stub2 = CreateValueObject();
+
+            stub.GetHashCode().Should().Be(stub2.GetHashCode());
+        }
+        
+        [Fact]
+        public void Should_report_get_hash_code_same_if_same_values_with_list()
+        {
+            ValueObject<T> stub = CreateDifferentValueObject();
+            ValueObject<T> stub2 = CreateDifferentValueObject();
 
             stub.GetHashCode().Should().Be(stub2.GetHashCode());
         }
@@ -87,8 +95,8 @@ namespace DomainBuildingBlocks.UnitTests
         [Fact]
         public void Should_compare_null_attributes_to_non_null_attributes()
         {
-            var stub1 = new ValueObjectStub();
-            var stub2 = new ValueObjectStub();
+            var stub1 = new ComplexValueObjectStub();
+            var stub2 = new ComplexValueObjectStub();
 
             stub1.Address = "123 Main";
 
@@ -99,8 +107,8 @@ namespace DomainBuildingBlocks.UnitTests
         [Fact]
         public void Should_compare_null_dates_to_non_null_attributes()
         {
-            var stub1 = new ValueObjectStub();
-            var stub2 = new ValueObjectStub();
+            var stub1 = new ComplexValueObjectStub();
+            var stub2 = new ComplexValueObjectStub();
 
             stub1.Date = DateTime.Now;
 
@@ -111,7 +119,7 @@ namespace DomainBuildingBlocks.UnitTests
         [Fact]
         public void Should_copy_one_object_to_another()
         {
-            var initialObject = new ValueObjectStub
+            var initialObject = new ComplexValueObjectStub
                                 {
                                     Address = "Address",
                                     Age = 18,
@@ -119,7 +127,7 @@ namespace DomainBuildingBlocks.UnitTests
                                     Date = DateTime.Now
                                 };
 
-            var destinationObject = new ValueObjectStub();
+            var destinationObject = new ComplexValueObjectStub();
 
             initialObject.CopyTo(destinationObject);
 
@@ -129,25 +137,16 @@ namespace DomainBuildingBlocks.UnitTests
         protected class Stub { }
     }
 
-    public class ValueObjectStub : ValueObject<ValueObjectStub>
+    public class ValueObjectStubTester : ValueObjectTests<ComplexValueObjectStub>
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Address { get; set; }
-        public DateTime? Date { get; set; }
-        public IList Items { get; set; }
-    }
-
-    public class ValueObjectStubTester : ValueObjectTests<ValueObjectStub>
-    {
-        protected override ValueObject<ValueObjectStub> CreateValueObject()
+        protected override ValueObject<ComplexValueObjectStub> CreateValueObject()
         {
-            return new ValueObjectStub { Address = "4", Age = 2, Name = null, Items = new [] {new [] {1, 2, 3} } };
+            return new ComplexValueObjectStub { Address = "4", Age = 2, Name = null, Items = new [] {new [] {1, 2, 3} } };
         }
 
-        protected override ValueObject<ValueObjectStub> CreateDifferentValueObject()
+        protected override ValueObject<ComplexValueObjectStub> CreateDifferentValueObject()
         {
-            return new ValueObjectStub { Address = "1", Age = 2, Name = null, Items = new[] { 1, 2, 5 } };
+            return new ComplexValueObjectStub { Address = "1", Age = 2, Name = null, Items = new[] { 1, 2, 5 } };
         }
     }
 }
