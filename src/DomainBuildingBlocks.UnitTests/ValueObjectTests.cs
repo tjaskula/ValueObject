@@ -3,7 +3,7 @@ using System.Collections;
 using FluentAssertions;
 using Xunit;
 
-namespace ValueObject.UnitTests
+namespace DomainBuildingBlocks.UnitTests
 {
     public abstract class ValueObjectTests<T> where T : ValueObject<T>
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ValueObject
+namespace DomainBuildingBlocks
 {
     /// <summary>
 	/// Base class for Value Objects. DDD concept.
