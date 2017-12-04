@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DomainBuildingBlocks
 {
-    public class UnorderedValueObjects<T> : ValueObject<T>, ICollection<T> where T : class
+    public class UnorderedValueObjects<T> : ICollection<T>, IEquatable<UnorderedValueObjects<T>> where T : class
     {
         private readonly ICollection<T> _items;
         
@@ -55,5 +57,58 @@ namespace DomainBuildingBlocks
         public int Count => _items.Count;
 
         public bool IsReadOnly => false;
+        
+        /// <summary>
+        /// Compares two Unordered Value Objects according to the values of all value objects.
+        /// </summary>
+        /// <param name="obj">Object to compare to.</param>
+        /// <returns>True if objects are considered equal.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var other = obj as UnorderedValueObjects<T>;
+
+            return Equals(other);
+        }
+
+        /// <summary>
+        /// Returns hashcode value calculated according to the values of all value objects.        
+        /// </summary>
+        /// <returns>Hashcode value.</returns>
+        public override int GetHashCode()
+        {
+            const int startValue = 17;
+            const int multiplier = 59;
+
+            int hashCode = startValue;
+
+            foreach (var item in _items)
+            {
+                hashCode = hashCode * multiplier + item.GetHashCode();
+            }
+
+            return hashCode;
+        }
+
+        /// <summary>
+        /// Compares two Unordered Value Objects according to the values of all fields in objects.
+        /// </summary>
+        /// <param name="other">Object to compare to.</param>
+        /// <returns>True if objects are considered equal.</returns>
+        public bool Equals(UnorderedValueObjects<T> other)
+        {
+            var itemsPair = _items.Zip(other._items,
+                (itemThis, itemOther) => new {ItemThis = itemThis, ItemOther = itemOther});
+
+            foreach (var itemPair in itemsPair)
+            {
+                if (!itemPair.ItemThis.Equals(itemPair.ItemOther))
+                    return false;
+            }
+            
+            return true;
+        }
     }
 }

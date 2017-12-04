@@ -6,13 +6,13 @@ namespace DomainBuildingBlocks.UnitTests
 {
     public abstract class UnorderedValueObjectsTests<T> where T : ValueObject<T>
     {
-        protected abstract UnorderedValueObjects<T> CreateValueObjects();
+        protected abstract IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateValueObjects();
         
         [Fact]
         public void Should_properly_report_equality()
         {
-            ValueObject<T> stub = CreateValueObjects();
-            ValueObject<T> stub2 = CreateValueObjects();
+            var stub = CreateValueObjects();
+            var stub2 = CreateValueObjects();
 
             stub.Should().Be(stub2);
         }
@@ -20,7 +20,7 @@ namespace DomainBuildingBlocks.UnitTests
 
     public class UnorderedValueObjectsTester : UnorderedValueObjectsTests<SimpleValueObjectStub>
     {
-        protected override UnorderedValueObjects<SimpleValueObjectStub> CreateValueObjects()
+        protected override IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateValueObjects()
         {
             var simpleValueObjectStubs = new UnorderedValueObjects<SimpleValueObjectStub>
             {
