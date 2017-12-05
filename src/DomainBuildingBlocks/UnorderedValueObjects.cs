@@ -99,6 +99,8 @@ namespace DomainBuildingBlocks
         /// <returns>True if objects are considered equal.</returns>
         public bool Equals(UnorderedValueObjects<T> other)
         {
+            if (other == null) return false;
+            
             var itemsPair = _items.Zip(other._items,
                 (itemThis, itemOther) => new {ItemThis = itemThis, ItemOther = itemOther});
 

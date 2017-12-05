@@ -56,6 +56,13 @@ namespace DomainBuildingBlocks.UnitTests
 
             stub.GetHashCode().Should().Be(stub2.GetHashCode());
         }
+        
+        [Fact]
+        public void Should_report_not_equal_if_obj_is_null()
+        {
+            var stub = CreateValueObjects();
+            (stub.Equals(null)).Should().BeFalse();
+        }
     }
 
     public class UnorderedValueObjectsTester : UnorderedValueObjectsTests<SimpleValueObjectStub>
