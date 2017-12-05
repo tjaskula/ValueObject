@@ -112,5 +112,12 @@ namespace DomainBuildingBlocks
             
             return true;
         }
+
+        public UnorderedValueObjects<T> Copy()
+        {
+            var destination = new T[_items.Count];
+            _items.CopyTo(destination, 0);
+            return new UnorderedValueObjects<T>(destination);
+        }
     }
 }

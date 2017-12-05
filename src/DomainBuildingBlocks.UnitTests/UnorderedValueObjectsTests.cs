@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -61,7 +62,17 @@ namespace DomainBuildingBlocks.UnitTests
         public void Should_report_not_equal_if_obj_is_null()
         {
             var stub = CreateValueObjects();
-            (stub.Equals(null)).Should().BeFalse();
+            stub.Equals(null).Should().BeFalse();
+        }
+        
+        [Fact]
+        public void Should_copy_one_object_to_another()
+        {
+            var initialObject = CreateValueObjects() as UnorderedValueObjects<SimpleValueObjectStub>;
+
+            var destinationObject = initialObject.Copy();
+
+            initialObject.Equals(destinationObject).Should().BeTrue();
         }
     }
 
