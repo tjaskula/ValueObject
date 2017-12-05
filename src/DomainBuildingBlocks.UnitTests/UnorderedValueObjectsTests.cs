@@ -38,6 +38,15 @@ namespace DomainBuildingBlocks.UnitTests
             stub.Should().NotBe(stub2);
             stub.Should().NotBeSameAs(stub2);
         }
+        
+        [Fact]
+        public void Should_report_get_hash_code_different_if_different_values()
+        {
+            var stub = CreateValueObjects();
+            var stub2 = CreateDifferentValueObjects();
+
+            stub.GetHashCode().Should().NotBe(stub2.GetHashCode());
+        }
     }
 
     public class UnorderedValueObjectsTester : UnorderedValueObjectsTests<SimpleValueObjectStub>
