@@ -28,6 +28,16 @@ namespace DomainBuildingBlocks.UnitTests
             stub.Should().Be(stub);
             stub.Should().BeSameAs(stub);
         }
+        
+        [Fact]
+        public void Should_properly_report_nonequality()
+        {
+            var stub = CreateValueObjects();
+            var stub2 = CreateDifferentValueObjects();
+
+            stub.Should().NotBe(stub2);
+            stub.Should().NotBeSameAs(stub2);
+        }
     }
 
     public class UnorderedValueObjectsTester : UnorderedValueObjectsTests<SimpleValueObjectStub>
