@@ -5,23 +5,29 @@ using System.Linq;
 
 namespace DomainBuildingBlocks
 {
-    public class UnorderedValueObjects<T> : ICollection<T>, IEquatable<UnorderedValueObjects<T>> where T : class
+    public class OrderedValueObjects<T> : ICollection<T>, IEquatable<OrderedValueObjects<T>> where T : class
     {
-        private readonly ICollection<T> _items;
-        
-        public UnorderedValueObjects()
+        private readonly Comparer<T> _comparer;
+        private readonly List<T> _items;
+
+        private OrderedValueObjects(List<T> list) : this(Comparer<T>.Default)
         {
-            _items = new List<T>();
+            _items = list;
+        }
+        
+        public OrderedValueObjects() : this(Comparer<T>.Default)
+        {
         }
 
-        protected UnorderedValueObjects(ICollection<T> collection)
+        public OrderedValueObjects(Comparer<T> comparer)
         {
-            _items = collection;
+            _items = new List<T>();
+            _comparer = comparer;
         }
         
         public IEnumerator<T> GetEnumerator()
         {
-            return _items.GetEnumerator();
+            return ((IList<T>)_items).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -31,7 +37,8 @@ namespace DomainBuildingBlocks
 
         public void Add(T item)
         {
-            _items.Add(item);
+            int index = _items.BinarySearch(item, _comparer);
+            _items.Insert(index >= 0 ? index : ~index, item);
         }
 
         public void Clear()
@@ -41,7 +48,7 @@ namespace DomainBuildingBlocks
 
         public bool Contains(T item)
         {
-            return _items.Contains(item);
+            return _items.BinarySearch(item, _comparer) >= 0;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -51,15 +58,18 @@ namespace DomainBuildingBlocks
 
         public bool Remove(T item)
         {
-            return _items.Remove(item);
+            int index = _items.BinarySearch(item, _comparer);
+            if (index >= 0)
+            {
+                _items.RemoveAt(index);
+                return true;
+            }
+
+            return false;
         }
-
-        public int Count => _items.Count;
-
-        public bool IsReadOnly => false;
         
         /// <summary>
-        /// Compares two Unordered Value Objects according to the values of all value objects.
+        /// Compares two Ordered Value Objects according to the values of all value objects.
         /// </summary>
         /// <param name="obj">Object to compare to.</param>
         /// <returns>True if objects are considered equal.</returns>
@@ -68,11 +78,11 @@ namespace DomainBuildingBlocks
             if (obj == null)
                 return false;
 
-            var other = obj as UnorderedValueObjects<T>;
+            var other = obj as OrderedValueObjects<T>;
 
             return Equals(other);
         }
-
+        
         /// <summary>
         /// Returns hashcode value calculated according to the values of all value objects.        
         /// </summary>
@@ -97,7 +107,7 @@ namespace DomainBuildingBlocks
         /// </summary>
         /// <param name="other">Object to compare to.</param>
         /// <returns>True if objects are considered equal.</returns>
-        public bool Equals(UnorderedValueObjects<T> other)
+        public bool Equals(OrderedValueObjects<T> other)
         {
             if (other == null) return false;
             
@@ -113,11 +123,15 @@ namespace DomainBuildingBlocks
             return true;
         }
 
-        public UnorderedValueObjects<T> Copy()
+        public OrderedValueObjects<T> Copy()
         {
             var destination = new T[_items.Count];
             _items.CopyTo(destination, 0);
-            return new UnorderedValueObjects<T>(destination);
+            return new OrderedValueObjects<T>(destination.ToList());
         }
+
+        public int Count => _items.Count;
+
+        public bool IsReadOnly => false;
     }
 }

@@ -1,20 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
 namespace DomainBuildingBlocks.UnitTests
 {
-    public abstract class UnorderedValueObjectsTests<T> where T : ValueObject<T>
+    public abstract class OrderedValueObjectsTests<T> where T : ValueObject<T>
     {
-        protected abstract IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateValueObjects();
+        protected abstract IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateValueObjects();
         
-        protected abstract IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateDifferentValueObjects();
+        protected abstract IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateDifferentOrderValueObjects();
+        
+        protected abstract IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateDifferentOrderAndPropertiesValueObjects();
         
         [Fact]
         public void Should_properly_report_equality()
         {
             var stub = CreateValueObjects();
             var stub2 = CreateValueObjects();
+
+            stub.Should().Be(stub2);
+            stub.Should().NotBeSameAs(stub2);
+        }
+        
+        [Fact]
+        public void Should_properly_report_equality_for_different_objects()
+        {
+            var stub = CreateValueObjects();
+            var stub2 = CreateDifferentOrderValueObjects();
 
             stub.Should().Be(stub2);
             stub.Should().NotBeSameAs(stub2);
@@ -33,7 +46,7 @@ namespace DomainBuildingBlocks.UnitTests
         public void Should_properly_report_nonequality()
         {
             var stub = CreateValueObjects();
-            var stub2 = CreateDifferentValueObjects();
+            var stub2 = CreateDifferentOrderAndPropertiesValueObjects();
 
             stub.Should().NotBe(stub2);
             stub.Should().NotBeSameAs(stub2);
@@ -43,7 +56,7 @@ namespace DomainBuildingBlocks.UnitTests
         public void Should_report_get_hash_code_different_if_different_values()
         {
             var stub = CreateValueObjects();
-            var stub2 = CreateDifferentValueObjects();
+            var stub2 = CreateDifferentOrderAndPropertiesValueObjects();
 
             stub.GetHashCode().Should().NotBe(stub2.GetHashCode());
         }
@@ -51,8 +64,17 @@ namespace DomainBuildingBlocks.UnitTests
         [Fact]
         public void Should_report_get_hash_code_same_if_same_values()
         {
-            var stub = CreateDifferentValueObjects();
-            var stub2 = CreateDifferentValueObjects();
+            var stub = CreateDifferentOrderValueObjects();
+            var stub2 = CreateDifferentOrderValueObjects();
+
+            stub.GetHashCode().Should().Be(stub2.GetHashCode());
+        }
+        
+        [Fact]
+        public void Should_report_get_hash_code_same_if_same_values_but_different_objects()
+        {
+            var stub = CreateValueObjects();
+            var stub2 = CreateDifferentOrderValueObjects();
 
             stub.GetHashCode().Should().Be(stub2.GetHashCode());
         }
@@ -67,7 +89,7 @@ namespace DomainBuildingBlocks.UnitTests
         [Fact]
         public void Should_copy_one_object_to_another()
         {
-            var initialObject = CreateValueObjects() as UnorderedValueObjects<SimpleValueObjectStub>;
+            var initialObject = CreateValueObjects() as OrderedValueObjects<SimpleValueObjectStub>;
 
             var destinationObject = initialObject.Copy();
 
@@ -75,11 +97,11 @@ namespace DomainBuildingBlocks.UnitTests
         }
     }
 
-    public class UnorderedValueObjectsTester : UnorderedValueObjectsTests<SimpleValueObjectStub>
+    public class OrderedValueObjectsTester : OrderedValueObjectsTests<SimpleValueObjectStub>
     {
-        protected override IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateValueObjects()
+        protected override IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateValueObjects()
         {
-            var simpleValueObjectStubs = new UnorderedValueObjects<SimpleValueObjectStub>
+            var simpleValueObjectStubs = new OrderedValueObjects<SimpleValueObjectStub>(new SimpleValueObjectStubComparer())
             {
                 new SimpleValueObjectStub
                 {
@@ -106,9 +128,9 @@ namespace DomainBuildingBlocks.UnitTests
             return simpleValueObjectStubs;
         }
         
-        protected override IEquatable<UnorderedValueObjects<SimpleValueObjectStub>> CreateDifferentValueObjects()
+        protected override IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateDifferentOrderValueObjects()
         {
-            var simpleValueObjectStubs = new UnorderedValueObjects<SimpleValueObjectStub>
+            var simpleValueObjectStubs = new OrderedValueObjects<SimpleValueObjectStub>(new SimpleValueObjectStubComparer())
             {
                 new SimpleValueObjectStub
                 {
@@ -116,6 +138,35 @@ namespace DomainBuildingBlocks.UnitTests
                     Age = 23,
                     Date = new DateTime(2017, 11, 30),
                     Name = "Nom"
+                },
+                new SimpleValueObjectStub
+                {
+                    Address = "1",
+                    Age = 18,
+                    Date = new DateTime(2017, 10, 30),
+                    Name = "Bom"
+                },
+                new SimpleValueObjectStub
+                {
+                    Address = "3",
+                    Age = 70,
+                    Date = new DateTime(2017, 12, 30),
+                    Name = "Vom"
+                }
+            };
+            return simpleValueObjectStubs;
+        }
+
+        protected override IEquatable<OrderedValueObjects<SimpleValueObjectStub>> CreateDifferentOrderAndPropertiesValueObjects()
+        {
+            var simpleValueObjectStubs = new OrderedValueObjects<SimpleValueObjectStub>(new SimpleValueObjectStubComparer())
+            {
+                new SimpleValueObjectStub
+                {
+                    Address = "2",
+                    Age = 23,
+                    Date = new DateTime(2017, 11, 30),
+                    Name = "Nom1"
                 },
                 new SimpleValueObjectStub
                 {
