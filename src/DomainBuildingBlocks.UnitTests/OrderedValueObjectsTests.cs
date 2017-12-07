@@ -53,6 +53,24 @@ namespace DomainBuildingBlocks.UnitTests
         }
         
         [Fact]
+        public void Should_properly_report_equality_with_operator()
+        {
+            var stub = (OrderedValueObjects<SimpleValueObjectStub>)CreateValueObjects();
+            var stub2 = (OrderedValueObjects<SimpleValueObjectStub>)CreateValueObjects();
+
+            (stub == stub2).Should().BeTrue();
+        }
+        
+        [Fact]
+        public void Should_properly_report_nonequality_with_operator()
+        {
+            var stub = (OrderedValueObjects<SimpleValueObjectStub>)CreateValueObjects();
+            var stub2 = (OrderedValueObjects<SimpleValueObjectStub>)CreateDifferentOrderAndPropertiesValueObjects();
+
+            (stub != stub2).Should().BeTrue();
+        }
+        
+        [Fact]
         public void Should_report_get_hash_code_different_if_different_values()
         {
             var stub = CreateValueObjects();

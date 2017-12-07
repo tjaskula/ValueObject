@@ -122,6 +122,31 @@ namespace DomainBuildingBlocks
             
             return true;
         }
+        
+        /// <summary>
+        /// Compares two value objects for equality.
+        /// </summary>
+        /// <param name="x">The first value object.</param>
+        /// <param name="y">The second value object.</param>
+        /// <returns>Returns true if two object are the same.</returns>
+        public static bool operator ==(OrderedValueObjects<T> x, OrderedValueObjects<T> y)
+        {
+            if (ReferenceEquals(x, null))
+                return ReferenceEquals(y, null);
+
+            return x.Equals(y);
+        }
+
+        /// <summary>
+        /// Compares two value objects for inequlaity.
+        /// </summary>
+        /// <param name="x">The first value object.</param>
+        /// <param name="y">The second value object.</param>
+        /// <returns>Returns true if two object are not the same.</returns>
+        public static bool operator !=(OrderedValueObjects<T> x, OrderedValueObjects<T> y)
+        {
+            return !(x == y);
+        }
 
         public OrderedValueObjects<T> Copy()
         {
