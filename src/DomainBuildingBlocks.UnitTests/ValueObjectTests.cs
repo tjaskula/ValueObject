@@ -141,12 +141,43 @@ namespace DomainBuildingBlocks.UnitTests
     {
         protected override ValueObject<ComplexValueObjectStub> CreateValueObject()
         {
-            return new ComplexValueObjectStub { Address = "4", Age = 2, Name = null, Items = new [] {new [] {1, 2, 3} } };
+            
+            return new ComplexValueObjectStub { Address = "4", Age = 2, Name = null, Items = GetOrderedValueObjects() };
         }
 
         protected override ValueObject<ComplexValueObjectStub> CreateDifferentValueObject()
         {
-            return new ComplexValueObjectStub { Address = "1", Age = 2, Name = null, Items = new[] { 1, 2, 5 } };
+            return new ComplexValueObjectStub { Address = "1", Age = 2, Name = null, Items = GetOrderedValueObjects() };
+        }
+
+        private OrderedValueObjects<SimpleValueObjectStub> GetOrderedValueObjects()
+        {
+            var simpleValueObjectStubs = new OrderedValueObjects<SimpleValueObjectStub>(new SimpleValueObjectStubComparer())
+            {
+                new SimpleValueObjectStub
+                {
+                    Address = "2",
+                    Age = 23,
+                    Date = new DateTime(2017, 11, 30),
+                    Name = "Nom"
+                },
+                new SimpleValueObjectStub
+                {
+                    Address = "3",
+                    Age = 70,
+                    Date = new DateTime(2017, 12, 30),
+                    Name = "Vom"
+                },
+                new SimpleValueObjectStub
+                {
+                    Address = "1",
+                    Age = 18,
+                    Date = new DateTime(2017, 10, 30),
+                    Name = "Bom"
+                }
+            };
+
+            return simpleValueObjectStubs;
         }
     }
 }

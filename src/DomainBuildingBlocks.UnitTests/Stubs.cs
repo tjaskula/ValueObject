@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace DomainBuildingBlocks.UnitTests
@@ -18,7 +17,7 @@ namespace DomainBuildingBlocks.UnitTests
         public int Age { get; set; }
         public string Address { get; set; }
         public DateTime? Date { get; set; }
-        public IList Items { get; set; }
+        public OrderedValueObjects<SimpleValueObjectStub> Items { get; set; }
     }
     
     public class SimpleValueObjectStubComparer : Comparer<SimpleValueObjectStub>
