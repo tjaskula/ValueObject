@@ -128,7 +128,7 @@ namespace DomainBuildingBlocks
         /// Copies the content of public properties to the object passed by parameter.
         /// </summary>
         /// <param name="coptyTo">Object that will contain the copied data.</param>
-        public virtual void CopyTo(T coptyTo)
+        public void CopyTo(T coptyTo)
         {
             Type t = GetType();
             PropertyInfo[] properties = t.GetProperties(BindingFlags.Instance | BindingFlags.Public);

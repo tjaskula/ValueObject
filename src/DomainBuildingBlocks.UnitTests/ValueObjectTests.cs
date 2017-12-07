@@ -57,6 +57,24 @@ namespace DomainBuildingBlocks.UnitTests
             stub2.Equals(stub).Should().BeFalse();
             stub.Equals(stub2).Should().BeFalse();
         }
+        
+        [Fact]
+        public void Should_properly_report_equality_with_operator()
+        {
+            ValueObject<T> stub = CreateValueObject();
+            ValueObject<T> stub2 = CreateValueObject();
+
+            (stub == stub2).Should().BeTrue();
+        }
+        
+        [Fact]
+        public void Should_properly_report_nonequality_with_operator()
+        {
+            ValueObject<T> stub = CreateValueObject();
+            ValueObject<T> stub2 = CreateDifferentValueObject();
+
+            (stub != stub2).Should().BeTrue();
+        }
 
         [Fact]
         public void Should_report_get_hash_code_different_if_different_values()
@@ -89,7 +107,7 @@ namespace DomainBuildingBlocks.UnitTests
         public void Should_report_not_equal_if_obj_is_null()
         {
             ValueObject<T> stub = CreateValueObject();
-            (stub.Equals(null)).Should().BeFalse();
+            stub.Equals(null).Should().BeFalse();
         }
 
         [Fact]
