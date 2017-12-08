@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainBuildingBlocks", "src/DomainBuildingBlocks/DomainBuildingBlocks.csproj", "{536AD315-2E75-48DA-8A25-2574EF2B8754}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DddBuildingBlocks.ValueObject", "src/DddBuildingBlocks.ValueObject/DddBuildingBlocks.ValueObject.csproj", "{536AD315-2E75-48DA-8A25-2574EF2B8754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainBuildingBlocks.UnitTests", "src\DomainBuildingBlocks.UnitTests\DomainBuildingBlocks.UnitTests.csproj", "{E3B69C7D-965D-4BEE-A1AC-C199E0368AC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DddBuildingBlocks.ValueObject.UnitTests", "src\DddBuildingBlocks.ValueObject.UnitTests\DddBuildingBlocks.ValueObject.UnitTests.csproj", "{E3B69C7D-965D-4BEE-A1AC-C199E0368AC4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{F0421376-3497-4AD6-A7C7-29BFD558AC99}"
 ProjectSection(SolutionItems) = preProject
