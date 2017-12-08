@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Implementation of Domain Driven Design Value Object in .NET</Description>
+    <Copyright>Copyright Tomasz Jaskula</Copyright>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Authors>Tomasz Jaskula</Authors>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>DddBuildingBlocks.ValueObject</AssemblyName>
+    <PackageId>DddBuildingBlocks.ValueObject</PackageId>
+    <PackageTags>value-object;domain-driven-design;ddd;valueobject;equality</PackageTags>
+    <PackageProjectUrl>https://github.com/tjaskula/ValueObject</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/tjaskula/ValueObject/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/tjaskula/ValueObject.git</RepositoryUrl>
+  </PropertyGroup>
+</Project>
