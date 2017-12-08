@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Title>Value Object (Domain Driven Design)</Title>
     <Description>Implementation of Domain Driven Design Value Object in .NET</Description>
+    <Summary>In Domain Driven Design a Value Object is an object that contains attributes but has no conceptual identity.</Summary>
     <Copyright>Copyright Tomasz Jaskula</Copyright>
     <VersionPrefix>0.1.0</VersionPrefix>
     <Authors>Tomasz Jaskula</Authors>
