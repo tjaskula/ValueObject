@@ -1,4 +1,9 @@
 # Domain Driven Design Value Object
+
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/tjaskula/valueobject?branch=master&svg=true)](https://ci.appveyor.com/project/tjaskula/valueobject) 
+[![NuGet](https://img.shields.io/nuget/dt/DddBuildingBlocks.ValueObject.svg)](https://www.nuget.org/packages/DddBuildingBlocks.ValueObject) 
+[![NuGet](https://img.shields.io/nuget/vpre/DddBuildingBlocks.ValueObject.svg)](https://www.nuget.org/packages/DddBuildingBlocks.ValueObject)
+
 Yet another implementation of the Domain Driven Design Value Object building block.
 
 > Value Object : An object that contains attributes but has no conceptual identity.
@@ -12,9 +17,17 @@ In Domain Driven Design when a concept is modeled as a value it should have most
 - It can be compared with other value objects using equlaity.  
 - It supplies side effect free behavior.  
 
-## Installation
+## Installing ValueObject
 
-TODO
+You should install [ValueObject with NuGet](https://www.nuget.org/packages/DddBuildingBlocks.ValueObject):
+
+    Install-Package DddBuildingBlocks.ValueObject
+    
+Or via the .NET Core command line interface:
+
+    dotnet add package DddBuildingBlocks.ValueObject
+
+Either commands, from Package Manager Console or .NET Core CLI, will download and install DddBuildingBlocks.ValueObject and all required dependencies.
 
 ## Usage
 
