@@ -1,0 +1,20 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+nuget:
+  disable_publish_on_pr: true
+build_script:
+- ps: .\Build.ps1
+test: off
+artifacts:
+- path: .\src\DddBuildingBlocks.ValueObject\artifacts\**\*.nupkg
+  name: NuGet
+deploy:
+- provider: NuGet
+  name: production
+  skip_symbols: true
+  api_key:
+    secure: K2CmatrRY8DjHpzgf6jiOSeZRk5BV/1kzaSsLO92rKC2lA7/nP6sPL2lpKwXYYCa
+  on:
+    appveyor_repo_tag: true
